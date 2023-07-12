@@ -107,33 +107,15 @@ vector<string> aStar(vector<string> m) {
 
 /* 
 TO DO:
-1) Add methods to go up and down tree nodes
-2) Test that functionality
-3) Add the initialization logic for maze
-4) Test init function
-5) Add heuristic function utility
-6) Implement aStar logic
-7) Test
+1) Add the initialization logic for maze
+2) Test init function
+3) Add heuristic function utility
+4) Implement aStar logic
+5) Test
 */
 
 int main() {
     NAryTree *tree = new NAryTree();
-	std::cout << "Hello my name is ";
-	string x = "Hello my name is sam";
-	cout << x;
-	/* TEST NODE CREATION */
-	// Create root node
-	// Create 3 children with initialized nodes
-	Step r("00");
-	cout << r.sN;
-	tree->root = &r;
-	r.addChild("01");
-	r.addChild("02");
-	r.addChild("03");
-
-	tree->printPreorder(tree->root);
-	tree->printPreorder(&r);
-
     vector<string> maze;
     maze = initMaze(maze);
 	delete tree;
