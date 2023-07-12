@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include <sstream>
 
 using namespace std;
 
@@ -92,8 +93,23 @@ class NAryTree
 ## [] [] [] [] [] [] ## [] [] [] ##
 ## ## ## ## ## ## ## ## ## ## ## ##
 */
-vector<string> initMaze(vector<string> m) {
-
+vector<vector<string>> initMaze(vector<vector<string>> m) {
+	vector<string> temp = {};
+	fstream f;
+	f.open("maze.txt");
+	// reading from files
+	string input = "";
+	while (getline(f, input)) {
+		stringstream s(input); // throws input into the stream
+		string symb = "";
+		// Loop through the symbols on a line and push them onto temp vector
+		while (s >> symb) {
+			temp.push_back(symb);
+		}
+		// After a line has been looped through push the temp vector onto the maze 
+		m.push_back(temp);
+		temp = {};
+	}
     return m;
 }
 
@@ -107,16 +123,14 @@ vector<string> aStar(vector<string> m) {
 
 /* 
 TO DO:
-1) Add the initialization logic for maze
-2) Test init function
-3) Add heuristic function utility
-4) Implement aStar logic
-5) Test
+1) Add heuristic function utility
+2) Implement aStar logic
+3) Test
 */
 
 int main() {
     NAryTree *tree = new NAryTree();
-    vector<string> maze;
+    vector<vector<string>> maze;
     maze = initMaze(maze);
 	delete tree;
     return 0;
