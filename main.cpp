@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <vector>
 
 using namespace std;
 
@@ -10,7 +11,7 @@ using namespace std;
 // 1 North
 // 2 East
 // 3 South
-vector<int> cost = [2, 1, 2, 3];
+vector<int> cost = {2, 1, 2, 3};
 
 /* Got the below tree code from this source
 https://kalkicode.com/n-ary-tree-node-insertion-in-cpp
@@ -19,30 +20,32 @@ https://kalkicode.com/n-ary-tree-node-insertion-in-cpp
 class Step
 {
 	public: 
-    string id;
+    string sN;
     bool visited;
     int f;
     int g;
     int h;
 	vector < Step *> child;
+	Step* parent;
 
     /*
-    id needs to be passed in
+    sN needs to be passed in
     f, g, and h should be passed in
     visited does not need to be passed 
     */
 
-	Step(string id, int f = 0, int g = 0, int h = 0, bool visited = false)
+	Step(string sN, int f = 0, int g = 0, int h = 0, bool visited = false, Step* p = NULL)
     {
-        this->id = id;
-        this.f = f;
-        this.g = g;
-        this.h = h;
-        this.visited = visited;
+        this->sN = sN;
+        this->f = f;
+        this->g = g;
+        this->h = h;
+		this->parent = p;
+        this->visited = visited;
     }
-	void addChild(int id)
+	void addChild(string sN, int f = 0, int g = 0, int h = 0, bool visited = false)
 	{
-		Step *t = new Step(id);
+		Step *t = new Step(sN, f, g, h, visited, this);
 		this->child.push_back(t);
 	}
 };
@@ -62,7 +65,7 @@ class NAryTree
 		}
 		int i = 0;
 		Step *temp = nullptr;
-		cout << "  " << node->key;
+		cout << "  " << node->sN;
 		// iterating the child of given node
 		while (i < node->child.size())
 		{
@@ -115,7 +118,24 @@ TO DO:
 
 int main() {
     NAryTree *tree = new NAryTree();
+	std::cout << "Hello my name is ";
+	string x = "Hello my name is sam";
+	cout << x;
+	/* TEST NODE CREATION */
+	// Create root node
+	// Create 3 children with initialized nodes
+	Step r("00");
+	cout << r.sN;
+	tree->root = &r;
+	r.addChild("01");
+	r.addChild("02");
+	r.addChild("03");
+
+	tree->printPreorder(tree->root);
+	tree->printPreorder(&r);
+
     vector<string> maze;
     maze = initMaze(maze);
+	delete tree;
     return 0;
 }
