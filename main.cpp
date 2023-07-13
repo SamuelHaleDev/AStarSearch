@@ -64,6 +64,8 @@ class Step
 	void addChild(string sN, int f = 0, int g = 0, int h = 0, bool visited = false)
 	{
 		Step *t = new Step(sN, f, g, h, visited, this);
+		t->heuristic();
+		t->test_heuristic();
 		this->child.push_back(t);
 	}
 
@@ -72,8 +74,8 @@ class Step
 		int pj = 0;
 		int ci = 0;
 		int cj = 0;
-		int gi = 0;
-		int gj = 0;
+		int i = 0;
+		int j = 0;
 		// f = g + h
 		// g = parents.g + step cost
 		// h = manhattan distance
@@ -125,9 +127,37 @@ class Step
 		/* CALCULATE H */
 		// Referenced my manhattan distance formula from 
 		// https://www.geeksforgeeks.org/maximum-manhattan-distance-between-a-distinct-pair-from-n-coordinates/
-		this->h = abs(ci - gi) + abs(cj - gj);
+		i = ci - gi;
+		j = cj - gj;
+		// -i means gi is south
+		// +i means gi is north
+		// -j means gj is east
+		// +j means gj is west
+		// Using the step cost function where cost[0] is west, cost[1] is north, cost[2] is east, and cost[3] is south
+		if (i < 0) {
+			i *= -1;
+			this->h = i * cost[3];
+		}
+		else this->h = i * cost[1];
+		if (j < 0) {
+			j *= -1;
+			this->h += j * cost[2];
+		}
+		else this->h += j * cost[0];
+
 		/* END CALCULATE H */
 		this->f = this->g + this->h;
+	}
+
+	// write a function that will test the heuristic function
+	void test_heuristic() {
+		cout << "Testing heuristic function" << endl;
+		cout << "Parent: " << this->parent->sN << endl;
+		cout << "Child: " << this->sN << endl;
+		cout << "f: " << this->f << endl;
+		cout << "g: " << this->g << endl;
+		cout << "h: " << this->h << endl;
+		cout << endl;
 	}
 };
 
@@ -202,6 +232,10 @@ int main() {
 	searchMaze(gi, gj, "G"); // initialize global gi and gj
     NAryTree *tree = new NAryTree();
     maze = initMaze(maze);
+	Step *root = new Step("00");
+	root->addChild("01");
+	root->addChild("02");
+	root->addChild("03");
 	delete tree;
     return 0;
 }
