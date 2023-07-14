@@ -57,9 +57,6 @@ string increment(string s) {
 	return s;
 }
 
-/* Got the below tree code from this source
-https://kalkicode.com/n-ary-tree-node-insertion-in-cpp
-*/
 class Step
 {
 	public: 
