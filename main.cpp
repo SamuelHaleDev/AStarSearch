@@ -239,6 +239,7 @@ vector<vector<string>> aStar(vector<vector<string>> m, Step *s, vector<Step *> f
 	if (curI == gi && curJ == gj) {
 		// Step 1.1.1 if it is the goal node then return the maze
 		printMaze(m);
+		cout << "Programmed by yours truly: Samuel Hale" << endl;
 		return m;
 	}
 	// Step 1.2 if it is not the goal node then add every "[]" value as a child to the current node
