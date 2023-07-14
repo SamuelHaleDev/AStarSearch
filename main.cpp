@@ -21,7 +21,7 @@ void searchMaze(int &i, int&j, string sN) {
 	for (i = 0; i < maze.size(); i++) {
 		for (j = 0; j < maze[i].size(); j++) {
 			if (maze[i][j] == sN) {
-				break;
+				return;
 			}
 			else continue;
 		}
@@ -86,44 +86,44 @@ class Step
 			searchMaze(pi, pj, this->parent->sN);
 		}
 		searchMaze(ci, cj, this->sN);
-
-		// Calculate step cost and set g
-		if (pi != ci) {
-			ci -= pi;
-			if (ci == 1) {
-				if (this->parent != NULL) {
-					// Child is south
-					this->g = this->parent->g + cost[3];
+		if (this->parent != NULL) {
+			// Calculate step cost and set g
+			if (pi != ci) {
+				ci -= pi;
+				if (ci == 1) {
+					if (this->parent != NULL) {
+						// Child is south
+						this->g = this->parent->g + cost[3];
+					}
+					else this->g = cost[3];
 				}
-				else this->g = cost[3];
-			}
-			else {
-				if (this->parent != NULL) {
-					// Child is north
-					this->g = this->parent->g + cost[1];
+				else {
+					if (this->parent != NULL) {
+						// Child is north
+						this->g = this->parent->g + cost[1];
+					}
+					else this->g = cost[1];
 				}
-				else this->g = cost[1];
 			}
+			if (pj != cj) {
+				cj -= pj;
+				if (cj == 1) {
+					if (this->parent != NULL) {
+						// Child is east
+						this->g = this->parent->g + cost[2];
+					}
+					else this->g = cost[2];
+				}
+				else {
+					if (this->parent != NULL) {
+						// Child is west
+						this->g = this->parent->g + cost[0];
+					}
+					else this->g = cost[0];
+				}
+			}
+			/* END CALCULATE G */
 		}
-		if (pj != cj) {
-			cj -= pj;
-			if (cj == 1) {
-				if (this->parent != NULL) {
-					// Child is east
-					this->g = this->parent->g + cost[2];
-				}
-				else this->g = cost[2];
-			}
-			else {
-				if (this->parent != NULL) {
-					// Child is west
-					this->g = this->parent->g + cost[0];
-				}
-				else this->g = cost[0];
-			}
-		}
-		/* END CALCULATE G */
-
 		/* CALCULATE H */
 		// Referenced my manhattan distance formula from 
 		// https://www.geeksforgeeks.org/maximum-manhattan-distance-between-a-distinct-pair-from-n-coordinates/
@@ -152,7 +152,7 @@ class Step
 	// write a function that will test the heuristic function
 	void test_heuristic() {
 		cout << "Testing heuristic function" << endl;
-		cout << "Parent: " << this->parent->sN << endl;
+		if (this->parent != NULL) cout << "Parent: " << this->parent->sN << endl;
 		cout << "Child: " << this->sN << endl;
 		cout << "f: " << this->f << endl;
 		cout << "g: " << this->g << endl;
@@ -224,18 +224,15 @@ vector<string> aStar(vector<string> m) {
 
 /* 
 TO DO:
-1) Add heuristic function utility
-2) Implement aStar logic
-3) Test
+1) Implement aStar logic
+2) Test
 */
 int main() {
-	searchMaze(gi, gj, "G"); // initialize global gi and gj
     NAryTree *tree = new NAryTree();
     maze = initMaze(maze);
+	searchMaze(gi, gj, "G"); // initialize global gi and gj
 	Step *root = new Step("00");
-	root->addChild("01");
-	root->addChild("02");
-	root->addChild("03");
+	root->heuristic();
 	delete tree;
     return 0;
 }
