@@ -1,6 +1,15 @@
 {
   "files.associations": {
     "vector": "cpp",
-    "fstream": "cpp"
+    "fstream": "cpp",
+    "iterator": "cpp",
+    "memory": "cpp",
+    "streambuf": "cpp",
+    "xfacet": "cpp",
+    "xlocale": "cpp",
+    "xlocnum": "cpp",
+    "xmemory": "cpp",
+    "xstring": "cpp",
+    "xutility": "cpp"
   }
 }
