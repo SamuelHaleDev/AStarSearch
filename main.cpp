@@ -28,6 +28,15 @@ void searchMaze(int &i, int&j, string sN) {
 	}
 }
 
+// Function to print the maze
+void printMaze() {
+	for (int i = 0; i < maze.size(); i++) {
+		for (int j = 0; j < maze[i].size(); j++) {
+			cout << maze[i][j] << " ";
+		}
+		cout << endl;
+	}
+}
 
 
 /* Got the below tree code from this source
@@ -125,8 +134,6 @@ class Step
 			/* END CALCULATE G */
 		}
 		/* CALCULATE H */
-		// Referenced my manhattan distance formula from 
-		// https://www.geeksforgeeks.org/maximum-manhattan-distance-between-a-distinct-pair-from-n-coordinates/
 		i = ci - gi;
 		j = cj - gj;
 		// -i means gi is south
@@ -216,7 +223,7 @@ vector<vector<string>> initMaze(vector<vector<string>> m) {
 /*
 param {*} m: A vector of type strign that represents our maze
 param {*} s: A vector of ADT Step that represent*/
-vector<string> aStar(vector<string> m) {
+vector<vector<string>> aStar(vector<vector<string>>& m, NAryTree *tree) {
 
     return m;
 }
@@ -228,9 +235,12 @@ TO DO:
 2) Test
 */
 int main() {
+	int si = 0, sj = 0;
     NAryTree *tree = new NAryTree();
     maze = initMaze(maze);
 	searchMaze(gi, gj, "G"); // initialize global gi and gj
+	searchMaze(si, sj, "S"); // initialize start point
+	maze[si][sj] = "00";
 	Step *root = new Step("00");
 	root->heuristic();
 	delete tree;
